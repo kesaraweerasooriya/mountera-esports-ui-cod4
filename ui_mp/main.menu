@@ -1,0 +1,367 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+
+#define CHOICE_X_START			0
+#define CHOICE_Y_START			192
+
+#define CHOICE_GROUP			"main"
+#define CHOICE_SEP_1			1
+#define CHOICE_SEP_2			2
+#define CHOICE_SEP_3			6
+
+#define STYLE_PC	1
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+#include "ui_mp/stats_info.inc"
+
+{
+	assetGlobalDef
+	{
+		fadeClamp		1.0						// sets the fadeup alpha
+		fadeCycle		1						// how often fade happens in milliseconds
+		fadeAmount		0.1						// amount to adjust alpha per cycle
+	}
+	
+
+	menuDef
+	{
+		name			"main"
+		fullScreen		1
+		rect			0 0 640 480
+		focusColor		COLOR_FOCUSED
+		soundloop 		"main"
+		onOpen
+		{ 
+			open main_text;
+			uiScript addPlayerProfiles;
+			uiScript openMenuOnDvar com_playerProfile "" player_profile;
+			uiScript openMenuOnDvarNot ui_playerProfileCount 1 player_profile;
+			uiScript stopRefresh;
+			setdvar ui_showEndOfGame "0";
+			setdvar sv_cheats "1";
+			setdvar promod_mode "strat";
+			
+		}
+		onClose
+		{
+		}
+		onESC 
+		{
+		}
+	}
+	
+	menuDef
+	{
+		name			"main_text"
+		fullScreen		1
+		rect			0 0 640 480
+		focusColor		COLOR_FOCUSED
+		onOpen
+		{
+		}
+		onClose
+		{
+		}
+		onESC 
+		{
+		}
+
+		// Menu items -------------------------------------------
+		#include "ui/bg.inc"
+		itemDef
+		{
+			visible			1
+			style			WINDOW_STYLE_SHADER
+			rect			FULLSCREEN_WIDE
+			background		"animbg_front2"
+			forecolor		1 1 1 0.5
+			visible			when( dvarString( fs_game ) != "" )
+			decoration
+		}
+		
+		itemDef
+		{
+			visible			1
+			rect			170 40 250  100
+			forecolor		1 1 1 1
+			style			WINDOW_STYLE_SHADER
+			background		"logo_cod2"
+			visible 		when( !localvarBool( ui_hideBack ) && dvarString( ui_mod_logo ) == "" );
+			decoration
+		}
+		
+		itemDef
+        {
+            rect                      -20 200 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.8 0.8 0.8 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Join Game "
+            action                    { play mouse_click ; open pc_join_unranked ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 2 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+			exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		itemDef
+        {
+            rect                      -20 225 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 0 0 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Join ^5|sF| ^2Promod ^3TDM "
+            action                    { play mouse_click ; exec "connect 139.99.61.8:28964" ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 11 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		 itemDef
+        {
+            rect                      -20 255 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 1 0 0 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Join ^5|sF| ^2High XP ^3TDM "
+            action                    { play mouse_click ; exec "connect codsf.com:28960" ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 3 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		 itemDef
+        {
+            rect                      -20 285 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.8 0.8 0.8 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Select Profile "
+            action                    { play mouse_click ; setdvar ui_playerProfileAlreadyChosen 0 ; open player_profile ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 4 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		
+		itemDef
+        {
+            rect                      -20 310 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.8 0.8 0.8 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Controls "
+            action                    { play mouse_click ; open main_controls ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 5 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		
+		itemDef
+        {
+            rect                      -20 335 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.8 0.8 0.8 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Options "
+            action                    { play mouse_click ; open main_options ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 6 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		
+		itemDef
+        {
+            rect                      -20 360 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.8 0.8 0.8 0.8
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Mods "
+            action                    { play mouse_click ; close self ; open mods_menu ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 7 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		
+		 itemDef
+        {
+            rect                      -20 390 300 22 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP
+            borderSize                1
+            foreColor                 0.8 0.8 0.8 0.6
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            type                      ITEM_TYPE_BUTTON
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_MIDDLE_RIGHT
+            textAlignX                -25
+            textScale                 0.39
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^7Quit "
+            action                    { play mouse_click ; open quit_popmenu ; ; ;  }
+            onFocus                   { play mouse_over ; ; setLocalVarInt ui_highlight 8 ; setLocalVarString ui_choicegroup play_class ;  }
+            leaveFocus                { setLocalVarInt ui_highlight 0 ;  }
+            exp                       material ( ( ( "menu_button_backg" ) ) );
+            visible                   when ( ( ! localvarbool( "ui_hideBack" ) && dvarint( "sles_oldschool" ) != 1 ) )
+        }
+		
+		itemDef
+        {
+            rect                      42 -81 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_TOP_LEFT
+            textScale                 0.3
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text ( ( ( ( "^5www.codsf.com" ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+		
+		itemDef
+        {
+            rect                      42 -106 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_TOP_LEFT
+            textScale                 0.3
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text ( ( ( ( "^5www.fb.com/skyfire" ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+		
+		itemDef
+        {
+            rect                      42 -57 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textFont                  UI_FONT_OBJECTIVE
+            textAlign                 ITEM_ALIGN_TOP_LEFT
+            textScale                 0.3
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            exp                       text ( ( ( ( "^5Teamspeak 3 - ts.codsf.com" ) ) ) );
+            visible                   when ( ( dvarint( "sles_oldschool" ) != 1 ) )
+            decoration                
+        }
+		
+		itemDef
+        {
+            rect                      -90 20 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+            borderSize                1
+            foreColor                 1 1 1 1
+            backColor                 0 0 0 0
+            borderColor               0 0 0 0
+            outlineColor              0 0 0 0
+            textAlign                 ITEM_ALIGN_LEGACY_RIGHT
+            textScale                 0.4
+            textStyle                 ITEM_TEXTSTYLE_SHADOWED
+            text                      "^2Mod by | M!r7h "
+            visible 1                 
+            decoration                
+        }
+
+
+		#define CLEARUIHINT	exec "set ui_hint_text @MP_NULL"
+	
+		
+		
+		
+
+		
+	}
+	
+	#include "ui_mp/popupstyle.inc"	
+	#include "ui/choices_setup_popmenu.menu"
+
+
+	// ====================== join server type selection =========================
+	
+	#undef CHOICE_SIZE_X
+	#define CHOICE_SIZE_X	200
+	
+	menuDef
+	{
+		IMPROVED_POPUP_SETUP( "join_game_popup", 4, 12, 112, ;, 1 )
+		//CHOICE_BUTTON( 1, "Ranked Games", close self; close "main_text"; open pc_join_ranked )
+		CHOICE_BUTTON( 3, "Ranked Games", close self; close "main_text"; open pc_join_unranked )
+		CHOICE_BUTTON( 4, "Unranked Games", close self; close "main_text"; open pc_join_unranked )
+		//CHOICE_BUTTON( 3, "@MENU_CANCEL", close self )
+	}
+}
