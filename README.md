@@ -4,7 +4,7 @@ User interface for Mountera Promod created by kaizer
 
 Note :
 
-The Background image is moving 
+The Background image is moving (Like a slide)
 
 
 ## Screenshots
