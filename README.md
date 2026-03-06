@@ -1,5 +1,5 @@
 # mountera-esports-ui-cod4
-User interface for Mountera Promod created by kaizer
+User interface for Mountera Promod 
 
 
 Note :
